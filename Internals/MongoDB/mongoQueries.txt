@@ -1,0 +1,16 @@
+1. Demonstrate the usage of $match, $group, aggregate pipelines
+   >  db.students.aggregate({$match: {“Subject1”: {$gt: 20}}}, {$group: {“_id” : “$Name”}});
+
+2.Demonstrate the map-reduce aggregate function on this dataset
+ > var mapper = function(){
+        emit(this.Name, this.Subject1 + this.Subject2 + this.Subject3);
+       };
+ >  var reducer = function(name, sub){ return Array.sum(sum);};
+ >  db.students.mapReduce(mapper, reducer, {out: “opCollection”});
+
+3.Count the number of students who had passed in at least 2 subjects.
+> db.students.find({$or: [{$and: [{“Subject1”: {$gt: 20}}, {“Subject2”: {$gt: 20}}]}, {$and: [{“Subject1”: {$gt: 20}}, {“Subject3”: {$gt: 20}}]}, {$and: [{“Subject2”: {$gt: 20}}, {“Subject3”: {$gt: 20}}]}]});
+
+4. . Demonstrate the Alter and Drop commands on this dataset.
+> db.students.update({“USN”: “1NT18IS018”}, {$set: {“Subject1”: 50}});
+> db.students.drop();
